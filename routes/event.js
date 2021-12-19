@@ -20,62 +20,62 @@ router.post("/", verifyTokenAndCounselor, async (req, res) => {
   }
 });
 
-//UPDATE
+//UPDATE EVENT
 router.put("/:id", verifyTokenAndCounselor, async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
+    const updatedEvent = await Event.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedProduct);
+    res.status(200).json(updatedEvent);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//DELETE
+//DELETE EVENT
 router.delete("/:id", verifyTokenAndCounselor, async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted...");
+    await Event.findByIdAndDelete(req.params.id);
+    res.status(200).json("Event has been deleted...");
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//GET PRODUCT
+//GET Event
 router.get("/find/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
+    const event = await Event.findById(req.params.id);
+    res.status(200).json(event);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//GET ALL PRODUCTS
+//GET ALL EVENTS ALSO BY ORGANIZATION
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
-  const qCategory = req.query.category;
+  const qOrganization = req.query.organization;
   try {
-    let products;
+    let events;
 
     if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      products = await Product.find({
-        categories: {
-          $in: [qCategory],
+        events = await Event.find().sort({ createdAt: -1 }).limit(1);
+    } else if (qOrganization) {
+        events = await Event.find({
+            organizations: {
+          $in: [qOrganization],
         },
       });
     } else {
-      products = await Product.find();
+        events = await Event.find();
     }
 
-    res.status(200).json(products);
+    res.status(200).json(events);
   } catch (err) {
     res.status(500).json(err);
   }
