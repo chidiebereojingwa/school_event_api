@@ -1,4 +1,4 @@
-const Product = require("../models/Product");
+const Event = require("../models/Event");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
