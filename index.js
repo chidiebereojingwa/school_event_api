@@ -3,6 +3,9 @@ const app = express();
 const mongoose = require("mongoose");
 const dontenv = require("dotenv");
 const userRoute = require("./routes/users")
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/event");
+const cors = require("cors");
 
 
 
@@ -13,8 +16,13 @@ mongoose
     console.log(err);
   });
 
+
+app.use(cors());
 app.use(express.json())
-app.use("/api/user",userRoute)
+app.use("/api/user",userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/products", eventRoute);
+
  
 
 
